@@ -27,16 +27,17 @@ class AnchorGraphHashing(Hashing):
             minIndex = np.asarray(distance_i).argsort()[:self.nearest_num]
             self.distance.append([(index, distance_i[index]) for index in minIndex])
 
-    def setZ(self):
+    def calculateZ(self):
         if self.sigma == 0:
-            pass
+            maxDis = [anchors[-1][-1]**0.5  for anchors in self.distance]
+            self.sigma = np.asarray(maxDis).mean()
         for i in xrange(len(self.distance)):
             for j, dis in self.distance[i]:
                 self.matZ[(i, j)] = np.exp(-dis / (self.sigma ** 2))
         self.matZ = sparse.csr_matrix(self.matZ / self.matZ.sum(1))
 
 
-    def setW(self):
+    def trainHashMat(self):
         matA = np.diag(self.matZ.sum(0))
         matA = np.matrix(matA**0.5).I
         matM = matA * self.matZ.T * self.matZ * matA
@@ -50,8 +51,8 @@ class AnchorGraphHashing(Hashing):
 
     def train(self):
         self.selectNearestAnchor()
-        self.setZ()
-        self.setW()
+        self.calculateZ()
+        self.trainHashMat()
 
     def get_hashing_function(self):
         return self.hashMat
