@@ -1,7 +1,5 @@
 __author__ = 'soloconte'
 
-import numpy as np
-
 
 class Hashing(object):
     def __init__(self, train_data, bits=32):

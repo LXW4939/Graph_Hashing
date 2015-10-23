@@ -13,4 +13,3 @@ class Experiment(object):
 
     def conduct(self, times=10):
         pass
-

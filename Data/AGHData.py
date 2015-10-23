@@ -8,12 +8,12 @@ class AGHData(Data):
 
     def __init__(self, path):
         super(AGHData, self).__init__(path)
-        matPath = self.path + "mnist_split.mat"
-        dataDict = io.loadmat(matPath)
-        self.train_data = dataDict['traindata']
-        self.test_data = dataDict['testdata']
-        self.train_label = dataDict['traingnd'].T[0]
-        self.test_label = dataDict['testgnd'].T[0]
+        mat_path = self.path + "mnist_split.mat"
+        data_dict = io.loadmat(mat_path)
+        self.train_data = data_dict['traindata']
+        self.test_data = data_dict['testdata']
+        self.train_label = data_dict['traingnd'].T[0]
+        self.test_label = data_dict['testgnd'].T[0]
         print "Data Prepared"
 
     def get_train_data(self):
@@ -27,5 +27,3 @@ class AGHData(Data):
 
     def get_test_labels(self):
         return self.test_label
-
-
