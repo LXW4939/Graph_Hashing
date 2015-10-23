@@ -29,9 +29,3 @@ class AGHData(Data):
         return self.test_label
 
 
-if __name__ == "__main__":
-    mydata = AGHData("/home/soloconte/Codes/graph_hashing/Datasets/AGH/")
-    print mydata.train_data.shape
-    print mydata.test_data.shape
-    print mydata.train_label.shape
-    print mydata.test_label.shape

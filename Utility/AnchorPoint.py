@@ -32,7 +32,7 @@ class AnchorPoint(object):
 
     def getAnchorPoints(self):
         import pickle
-        data_file = open("/home/soloconte/Codes/graph_hashing/Datasets/AGH/anchors", "w")
+        data_file = open("/home/soloconte/Codes/graph_hashing/Datasets/AGH/anchors300", "w")
         pickle.dump(self.anchor_points, data_file)
         data_file.close()
         return self.anchor_points
