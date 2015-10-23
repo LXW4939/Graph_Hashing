@@ -1,11 +1,11 @@
 __author__ = 'soloconte'
 
-from Hashing import Hashing
+import Hashing
 from Utility import AnchorPoint, Distance
 import numpy as np
 from scipy import sparse, linalg
 
-class AnchorGraphHashing(Hashing):
+class AnchorGraphHashing(Hashing.Hashing):
     def __init__(self, train_data, bits=32, anchor_num=100, nearest_num=2, sigma=0):
         super(AnchorGraphHashing, self).__init__(train_data, bits)
         self.anchorPoints = []
@@ -40,6 +40,8 @@ class AnchorGraphHashing(Hashing):
     def trainHashMat(self):
         matA = np.diag(self.matZ.sum(0))
         matA = np.matrix(matA**0.5).I
+        print "size of matA : %d * %d" % matA.shape
+        print "size of matZ : %d * %d" % self.matZ.shape
         matM = matA * self.matZ.T * self.matZ * matA
         eigVals, eigVecs = linalg.eig(matM)
         minIndex = eigVals.argsort()[-self.bits-1:-1]
@@ -50,9 +52,11 @@ class AnchorGraphHashing(Hashing):
         self.hashMat = matA * np.matrix(eigVecs.T) * eigVals
 
     def train(self):
+        print "Start Training"
         self.selectNearestAnchor()
         self.calculateZ()
         self.trainHashMat()
+        print "Training Finished"
 
     def get_hashing_function(self):
         return self.hashMat
@@ -62,6 +66,7 @@ class AnchorGraphHashing(Hashing):
         code = np.matrix(out_of_sample) * self.hashMat
         binary_code[code > 0] = 1
         return binary_code
+
 
 
 
